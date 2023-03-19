@@ -64,8 +64,28 @@ public class SellerDaoImpl implements SellerDao {
 
 	@Override
 	public void update(Seller obj) {
-		
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+			"UPDATE seller "
+			+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "
+			+ "WHERE Id = ? ");
+			
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5,obj.getDepartment().getId());
+			st.setInt(6, obj.getId());
+			
+			st.executeUpdate();
+			
+		}catch(SQLException e){
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
@@ -102,23 +122,6 @@ public class SellerDaoImpl implements SellerDao {
 		}
 	}
 
-	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
-		Seller obj = new Seller();
-		obj.setId(rs.getInt("Id"));
-		obj.setName(rs.getString("Name"));
-		obj.setEmail(rs.getString("Email"));
-		obj.setBirthDate(rs.getDate("BirthDate"));
-		obj.setBaseSalary(rs.getDouble("BaseSalary"));
-		obj.setDepartment(dep);
-		return obj;
-	}
-
-	private Department instantiateDepartment(ResultSet rs) throws SQLException {// a exceção aqui está sendo propagada
-		Department dep = new Department();
-		dep.setId(rs.getInt("DepartmentId"));
-		dep.setName(rs.getString("DepName"));
-		return dep;
-	}
 
 	@Override
 	public List<Seller> findAll() {
@@ -195,6 +198,24 @@ public class SellerDaoImpl implements SellerDao {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
+	}
+	
+	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+		Seller obj = new Seller();
+		obj.setId(rs.getInt("Id"));
+		obj.setName(rs.getString("Name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setBirthDate(rs.getDate("BirthDate"));
+		obj.setBaseSalary(rs.getDouble("BaseSalary"));
+		obj.setDepartment(dep);
+		return obj;
+	}
+	
+	private Department instantiateDepartment(ResultSet rs) throws SQLException {// a exceção aqui está sendo propagada
+		Department dep = new Department();
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("DepName"));
+		return dep;
 	}
 
 }

@@ -25,6 +25,7 @@ public class Program {
 		for(Seller obj: list) {
 			System.out.println(obj);
 		}
+		
 		System.out.println("\n=== TEST 3: seller findAll ===");
 		list = sellerDao.findAll();
 		for(Seller obj: list) {
@@ -35,6 +36,13 @@ public class Program {
 		Seller newSeller = new Seller(null, "Maria Gloria", "maria@gmail.com", new Date(), 2500.0, department);
 		sellerDao.inserir(newSeller);
 		System.out.println("Inserido com sucesso! Novo id = " + newSeller.getId());
+		
+		System.out.println("\n=== TEST 5: seller update ===");
+		seller = sellerDao.findById(1);
+		seller.setEmail("marta@bol.com.br");
+		seller.setBaseSalary(3800.0);
+		sellerDao.update(seller);
+		System.out.println("Update completed!");
 	}
 
 }
