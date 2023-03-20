@@ -32,10 +32,10 @@ public class Program {
 			System.out.println(obj);
 		}
 		
-//		System.out.println("\n=== TEST 4: seller insert ===");
-//		Seller newSeller = new Seller(null, "Maria Gloria", "maria@gmail.com", new Date(), 2500.0, department);
-//		sellerDao.inserir(newSeller);
-//		System.out.println("Inserido com sucesso! Novo id = " + newSeller.getId());
+		System.out.println("\n=== TEST 4: seller insert ===");
+		Seller newSeller = new Seller(null, "Maria Gloria", "maria@gmail.com", new Date(), 2500.0, department);
+		sellerDao.inserir(newSeller);
+		System.out.println("Inserido com sucesso! Novo id = " + newSeller.getId());
 		
 		System.out.println("\n=== TEST 5: seller update ===");
 		seller = sellerDao.findById(1);

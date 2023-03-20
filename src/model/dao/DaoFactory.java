@@ -1,6 +1,7 @@
 package model.dao;
 
 import db.DB;
+import model.dao.impl.DepartmentDaoImpl;
 import model.dao.impl.SellerDaoImpl;
 
 public class DaoFactory {
@@ -15,4 +16,7 @@ public class DaoFactory {
 	 * 
 	 * */
 
+	public static DepartmentDao createDepartmentDao() {
+		return new DepartmentDaoImpl(DB.getConnection());
+	}
 }
